@@ -13,5 +13,32 @@ public class Rocket {
         this.status = RocketStatus.ON_GROUND;
     }
 
+    public boolean hasMission() {
+        return mission != null;
+    }
 
+    public boolean isInRepair() {
+        return status == RocketStatus.IN_REPAIR;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public RocketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RocketStatus status) {
+        this.status = status;
+    }
+
+    public Mission getMission() {
+        return mission;
+    }
+
+    public void setMission(Mission mission) {
+        this.mission = mission;
+        this.status = RocketStatus.IN_SPACE;
+    }
 }

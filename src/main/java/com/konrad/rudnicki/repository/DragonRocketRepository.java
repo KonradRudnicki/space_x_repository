@@ -19,7 +19,7 @@ public interface DragonRocketRepository {
     void updateMissionStatus(String missionName, MissionStatus status);
 
     void assignRocket(String rocketName, String missionName);
-    void assignRocketsToMission(List<Rocket> rockets, Mission mission);
+    void assignRocketsToMission(List<String> rocketsToAssign, String missionName);
 
     List<Mission> getMissionSummary();
 }
