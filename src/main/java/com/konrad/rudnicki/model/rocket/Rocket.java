@@ -41,4 +41,10 @@ public class Rocket {
         this.mission = mission;
         this.status = RocketStatus.IN_SPACE;
     }
+
+    @Override
+    public String toString() {
+        return name + " – " + status;
+    }
+
 }

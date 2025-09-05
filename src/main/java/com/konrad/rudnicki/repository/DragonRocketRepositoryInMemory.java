@@ -6,8 +6,10 @@ import com.konrad.rudnicki.model.rocket.Rocket;
 import com.konrad.rudnicki.model.rocket.RocketStatus;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DragonRocketRepositoryInMemory implements DragonRocketRepository {
 
@@ -127,7 +129,12 @@ public class DragonRocketRepositoryInMemory implements DragonRocketRepository {
 
     @Override
     public List<Mission> getMissionSummary() {
-        //todo
-        return List.of();
+        return missions.values().stream()
+                .sorted(
+                        Comparator
+                                .comparingInt((Mission m) -> m.getRockets() == null ? 0 : m.getRockets().size())
+                                .reversed()
+                                .thenComparing(Mission::getName, Comparator.reverseOrder())
+                ).collect(Collectors.toList());
     }
 }

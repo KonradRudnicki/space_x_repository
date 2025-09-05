@@ -167,8 +167,12 @@ class DragonRocketRepositoryTest {
         // mark some missions ended to ensure mixed statuses present
         repo.updateMissionStatus("Vertical Landing", MissionStatus.ENDED);
         repo.updateMissionStatus("Double Landing", MissionStatus.ENDED);
+        repo.updateMissionStatus("Luna1", MissionStatus.PENDING);
 
         List<Mission> summary = repo.getMissionSummary();
+        for (Mission mission : summary) {
+            System.out.println(mission);
+        }
 
         // Expected order by counts: Transit(3), Luna1(2), then the four with 0 rockets:
         // names: Vertical Landing, Mars, Luna2, Double Landing (descending alphabetical)

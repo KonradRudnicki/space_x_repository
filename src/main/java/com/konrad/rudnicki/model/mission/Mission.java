@@ -10,7 +10,7 @@ public class Mission {
 
     private final String name;
     private MissionStatus status;
-    private List<Rocket> rockets;
+    private final List<Rocket> rockets;
 
     public Mission(String name) {
         this.name = name;
@@ -24,24 +24,21 @@ public class Mission {
 
     public void addRocket(Rocket rocket) {
         this.rockets.add(rocket);
-
-        if (rocket.isInRepair())
-            this.status = MissionStatus.PENDING;
-        else {
-            this.status = MissionStatus.IN_PROGRESS;
-        }
+        updateStatus();
     }
 
     public void updateStatus() {
         if (rockets.isEmpty()) {
-            status = MissionStatus.ENDED;
+            this.status = MissionStatus.ENDED;
             return;
         }
 
-        long rocketsInRepairCount = this.rockets.stream().filter(Rocket::isInRepair).count();
-        if (rocketsInRepairCount >= 1)
+        boolean anyRepair = rockets.stream()
+                .anyMatch(r -> r.getStatus() == RocketStatus.IN_REPAIR);
+
+        if (anyRepair) {
             this.status = MissionStatus.PENDING;
-        else {
+        } else {
             this.status = MissionStatus.IN_PROGRESS;
         }
     }
@@ -62,7 +59,24 @@ public class Mission {
         return rockets;
     }
 
-    public void setRockets(List<Rocket> rockets) {
-        this.rockets = rockets;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name)
+            .append(" – ")
+            .append(status)
+            .append(" – Dragons: ")
+            .append(rockets.size());
+
+        if (!rockets.isEmpty()) {
+            sb.append(System.lineSeparator());
+            for (Rocket r : rockets) {
+                sb.append("   o ")
+                        .append(r.toString())
+                        .append(System.lineSeparator());
+            }
+        }
+
+        return sb.toString().trim();
     }
 }
